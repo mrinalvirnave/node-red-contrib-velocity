@@ -1,0 +1,13 @@
+{
+    "name"         : "node-red-contrib-velocity",
+    "version"      : "0.0.1",
+    "description"  : "A node to render velocity templates",
+    "dependencies": {
+      "velocity": "^0.7.2"
+    },
+    "node-red"     : {
+        "nodes": {
+            "velocity": "velocity/velocity.js"
+        }
+    }
+}
