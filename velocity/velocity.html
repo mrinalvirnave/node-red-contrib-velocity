@@ -14,8 +14,8 @@
 
 <script type="text/x-red" data-template-name="velocity">
     <div class="form-row">
-        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="common.label.name"></span></label>
-        <input type="text" id="node-input-name" data-i18n="[placeholder]common.label.name">
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="label.name"></span></label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]velocity.label.name">
     </div>
     <div class="form-row">
         <label for="node-input-field"><i class="fa fa-code"></i> <span data-i18n="velocity.label.context"></span></label>
@@ -32,7 +32,7 @@
 </script>
 
 <script type="text/x-red" data-help-name="velocity">
-    <p>Sets a property based on the provided template.</p>
+    <p></p>
     <p>By default this uses the <i><a href="http://mustache.github.io/mustache.5.html" target="_new">mustache</a></i>
     format, but this can be switched off if required.</p>
     <p>For example, when a template of:
@@ -51,10 +51,10 @@
 
 <script type="text/javascript">
     RED.nodes.registerType('velocity',{
-        color:"#948055",
+        color:"rgb(255, 190, 180)",
         category: 'function',
         defaults: {
-            name: {value:""},
+            name: {value:"Velocity"},
             field: {value:"payload"},
             fieldType: {value:"msg"},
             template: {value:"Hello $name"},

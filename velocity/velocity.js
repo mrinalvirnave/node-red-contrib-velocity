@@ -45,5 +45,5 @@ module.exports = function(RED) {
   }
 
   RED.nodes.registerType('velocity', VelocityNode);
-  //RED.library.register('velocity');
+  RED.library.register('templates');
 };

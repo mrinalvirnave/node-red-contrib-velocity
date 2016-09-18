@@ -1,7 +1,8 @@
 {
   "velocity": {
     "label": {
-      "context": "Context",
+      "name": "Name",
+      "property": "Set Property",
       "template": "Template (velocity)"
     }
   }
