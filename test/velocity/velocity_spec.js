@@ -42,19 +42,66 @@ describe('velocity node', function() {
     });
   });
 
-  it('should render variables in a template', function(done) {
-    var vm = 'Hello $payload.name ';
-    var flow = [{ 'id': 'n1', 'type': 'velocity', 'template': vm, wires: [['n2']] },
-      { id: 'n2', type: 'helper' }];
+  it('should render string variables in a template', function(done) {
+    var vm = 'Hello $payload.name';
+    var flow = [{ id: 'n2', type: 'helper' },
+      { 'id': 'n1', 'type': 'velocity', 'template': vm, wires: [['n2']] }];
     helper.load(testNode, flow, function() {
       var n1 = helper.getNode('n1');
       var n2 = helper.getNode('n2');
       n2.on('input', function(msg) {
-        msg.should.have.a.property('payload');
-        msg.payload.should.equal('Hello World');
-        done();
+        try {
+          msg.should.have.a.property('payload');
+          msg.payload.should.be.type('string');
+          msg.payload.should.be.equal('Hello World');
+          done();
+        } catch (e) {
+          done(e);
+        }
       });
       n1.emit('input', { payload: { name: 'World' } });
+    });
+  });
+
+  it('should allow conditionals in the template', function(done) {
+    var vm = 'Hello#if ($payload.value == 4) World#end';
+    var flow = [{ id: 'n2', type: 'helper' },
+      { 'id': 'n1', 'type': 'velocity', 'template': vm, wires: [['n2']] }];
+    helper.load(testNode, flow, function() {
+      var n1 = helper.getNode('n1');
+      var n2 = helper.getNode('n2');
+      n2.on('input', function(msg) {
+        try {
+          msg.should.have.a.property('payload');
+          msg.payload.should.be.type('string');
+          msg.payload.should.be.equal('Hello World');
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+      n1.emit('input', { payload: { value: 4 } });
+    });
+  });
+
+  it('should error if template is invalid', function(done) {
+    var vm = 'Hello#if ($payload.value == 4) World';
+    var flow = [{ id: 'n2', type: 'helper' },
+      { 'id': 'n1', 'type': 'velocity', 'template': vm, wires: [['n2']] }];
+    helper.load(testNode, flow, function() {
+      var n1 = helper.getNode('n1');
+      var n2 = helper.getNode('n2');
+      n2.on('input', function(msg) {
+        try {
+          msg.should.have.a.property('error');
+          msg.payload.should.be.type('object');
+          msg.error.substring(msg.error.length - 44).should.be.equal("Expecting 'END', 'ELSE', 'ELSEIF', got 'EOF'");
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+      n1.emit('input', { payload: { value: 4 } });
     });
   });
 });

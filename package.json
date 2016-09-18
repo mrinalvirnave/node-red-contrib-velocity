@@ -21,7 +21,8 @@
   },
   "license": "Apache-2.0",
   "devDependencies": {
-    "should": "^9.0.2",
-    "mocha": "^3.0.2"
+    "gulp": "^3.9.1",
+    "mocha": "2.5.3",
+    "should": "8.4.0"
   }
 }

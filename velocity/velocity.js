@@ -25,9 +25,8 @@ module.exports = function(RED) {
     node.on('input', function(msg) {
       try {
         var value;
-        var engine = new Engine({template: node.template});
+        var engine = new Engine({ template: node.template });
         value = engine.render(msg);
-
         if (node.fieldType === 'msg') {
           RED.util.setMessageProperty(msg, node.field, value);
         } else if (node.fieldType === 'flow') {
@@ -38,6 +37,8 @@ module.exports = function(RED) {
         node.send(msg);
       } catch (err) {
         node.error(err.message);
+        msg.error = err.message;
+        node.send(msg);
       }
     });
   }
