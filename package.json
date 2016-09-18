@@ -1,13 +1,27 @@
 {
-    "name"         : "node-red-contrib-velocity",
-    "version"      : "0.0.1",
-    "description"  : "A node to render velocity templates",
-    "dependencies": {
-      "velocity": "^0.7.2"
-    },
-    "node-red"     : {
-        "nodes": {
-            "velocity": "velocity/velocity.js"
-        }
+  "name": "node-red-contrib-velocity",
+  "version": "0.0.1",
+  "description": "A node to render velocity templates",
+  "dependencies": {
+    "velocity": "^0.7.2"
+  },
+  "node-red": {
+    "nodes": {
+      "velocity": "velocity/velocity.js"
     }
+  },
+  "devDepemocha ndencies": {
+    "gulp": "^3.9.1",
+    "gulp-mocha": "^3.0.1",
+    "mocha": "^3.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mrinalvirnave/node-red-contrib-velocity.git"
+  },
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "should": "^9.0.2",
+    "mocha": "^3.0.2"
+  }
 }
