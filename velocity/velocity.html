@@ -14,11 +14,11 @@
 
 <script type="text/x-red" data-template-name="velocity">
     <div class="form-row">
-        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="label.name"></span></label>
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="velocity.label.name"></span></label>
         <input type="text" id="node-input-name" data-i18n="[placeholder]velocity.label.name">
     </div>
     <div class="form-row">
-        <label for="node-input-field"><i class="fa fa-code"></i> <span data-i18n="velocity.label.context"></span></label>
+        <label for="node-input-field"><i class="fa fa-code"></i> <span data-i18n="velocity.label.property"></span></label>
         <input type="text" id="node-input-field" placeholder="payload" style="width:250px;">
         <input type="hidden" id="node-input-fieldType">
     </div>
@@ -32,21 +32,13 @@
 </script>
 
 <script type="text/x-red" data-help-name="velocity">
-    <p></p>
-    <p>By default this uses the <i><a href="http://mustache.github.io/mustache.5.html" target="_new">mustache</a></i>
-    format, but this can be switched off if required.</p>
-    <p>For example, when a template of:
-    <pre>Hello {{name}}. Today is {{date}}</pre>
-    <p>receives a message containing:
-    <pre>{
-  name: "Fred",
-  date: "Monday"
-  payload: ...
-}</pre>
-    <p>The resulting property will be:
-    <pre>Hello Fred. Today is Monday</pre>
-    <p>By default, mustache will escape any HTML entities in the values it substitutes.
-       To prevent this, use <code>{{{triple}}}</code> braces.
+    <p>Applies velocity template to data in the flow</p>
+    <p>The velocity engine documentation is available at <a href="http://velocity.apache.org/engine/" target="_new">http://velocity.apache.org/engine</a></p>
+    <p>The fields are as follows:
+      <ul><strong>Name</strong>: Give a descriptive name to this node otherwise it defaults to Velocity</ul>
+      <ul><strong>Set Property</strong>: This is the property that will contain the output once the velocity template is applied</ul>
+      <ul><strong>Template</strong>: This is the actual template text. It has a working example to begin with</ul>
+     </p>
 </script>
 
 <script type="text/javascript">
@@ -54,16 +46,16 @@
         color:"rgb(255, 190, 180)",
         category: 'function',
         defaults: {
-            name: {value:"Velocity"},
+            name: {value:""},
             field: {value:"payload"},
             fieldType: {value:"msg"},
-            template: {value:"Hello $name"},
+            template: {value:"Msg ID: $_msgid |\n Topic: #if ($topic) $topic #else EMPTY #end"},
         },
         inputs:1,
         outputs:1,
         icon: "template.png",
         label: function() {
-            return this.name;
+            return this.name || 'Velocity';
         },
         oneditprepare: function() {
             var that = this;
@@ -77,22 +69,20 @@
             });
             this.editor = RED.editor.createEditor({
                 id: 'node-input-template-editor',
-                mode: 'ace/mode/html',
+                mode: 'ace/mode/velocity', // Not in core editor sadly
                 value: $("#node-input-template").val()
             });
             RED.library.create({
-                url:"functions", // where to get the data from
-                type:"function", // the type of object the library is for
-                editor:that.editor, // the field name the main text body goes to
-                fields:['name','outputs']
+                url:"templates", 
+                type:"template", 
+                editor:that.editor, 
+                fields:['name']
             });
             this.editor.focus();
-            $("#node-input-format").change(function() {
-                var mod = "ace/mode/velocity";
-                that.editor.getSession().setMode({
-                   path: mod,
-                   v: Date.now()
-                })
+            var mod = "ace/mode/velocity"; // Not in core editor sadly
+            this.editor.getSession().setMode({
+                path: mod,
+                v: Date.now()
             });
         },
         oneditsave: function() {

@@ -12,7 +12,7 @@
 
 module.exports = function(RED) {
   'use strict';
-  var velocity = require('velocity');
+  var Engine = require('velocity').Engine;
 
   function VelocityNode(n) {
     RED.nodes.createNode(this, n);
@@ -25,11 +25,9 @@ module.exports = function(RED) {
     node.on('input', function(msg) {
       try {
         var value;
-        if (node.syntax === 'mustache') {
-          value = velocity.render(node.template, msg);
-        } else {
-          value = node.template;
-        }
+        var engine = new Engine({template: node.template});
+        value = engine.render(msg);
+
         if (node.fieldType === 'msg') {
           RED.util.setMessageProperty(msg, node.field, value);
         } else if (node.fieldType === 'flow') {

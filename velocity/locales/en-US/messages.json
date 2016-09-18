@@ -1,9 +1,0 @@
-{
-  "velocity": {
-    "label": {
-      "name": "Name",
-      "property": "Set Property",
-      "template": "Template (velocity)"
-    }
-  }
-}
