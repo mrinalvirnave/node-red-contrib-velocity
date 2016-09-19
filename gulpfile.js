@@ -1,22 +1,46 @@
 /* File: gulpfile.js */
 
 // grab our gulp packages
-const gulp = require('gulp');
-const mocha = require('gulp-mocha');
-const gutil = require('gulp-util');
-const exit = require('gulp-exit');
-const plumber = require('gulp-plumber');
-const istanbul = require('gulp-istanbul');
+var gulp = require('gulp');
+var mocha = require('gulp-mocha');
+var exit = require('gulp-exit');
+var plumber = require('gulp-plumber');
+var istanbul = require('gulp-istanbul');
+var coveralls = require('gulp-coveralls');
 
-const path = require('path');
+var path = require('path');
 
-// create a default task and just log a message
-gulp.task('default', function() {
-  return gutil.log('This module cannot be run standalone. Install it with node-red (http://nodered.org).');
+
+gulp.task('pre-test', function() {
+  return gulp.src(['velocity/*.js'])
+    .pipe(istanbul({ includeUntested: true }))
+    .pipe(istanbul.hookRequire());
 });
 
-gulp.task('test', () =>
-  gulp.src(path.join('test', '**', '*.js'), { read: false })
+gulp.task('test', ['pre-test'], function(cb) {
+  var mochaErr;
+
+  gulp.src(['test/**/*.js'], { read: false })
+    .pipe(plumber())
     .pipe(mocha({ reporter: 'spec', timeout: 3000 }))
-    .pipe(exit())
-);
+    .on('error', function(err) {
+      mochaErr = err;
+    })
+    .pipe(istanbul.writeReports())
+    .on('end', function() {
+      cb(mochaErr);
+    })
+    .pipe(exit());
+});
+
+
+gulp.task('coveralls', ['test'], function() {
+  if (!process.env.CI) {
+    return;
+  }
+
+  return gulp.src(path.join(__dirname, 'coverage/lcov.info'))
+    .pipe(coveralls());
+});
+
+gulp.task('default', ['test', 'coveralls']);
