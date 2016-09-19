@@ -34,19 +34,12 @@ gulp.task('test', ['pre-test'], function(cb) {
 });
 
 
-gulp.task('coveralls', ['test'], function() {
+gulp.task('coveralls', function() {
   if (!process.env.CI) {
     return;
   }
-  console.log('Sending data to Coveralls');
-  try {
-    return gulp.src([path.join('coverage','lcov.info')])
+  return gulp.src([path.join('coverage', 'lcov.info')])
     .pipe(coveralls());
-  } catch (e) {
-    console.log(e);
-    return e;
-  }
-  
 });
 
-gulp.task('default', ['test', 'coveralls']);
+gulp.task('default', ['test']);

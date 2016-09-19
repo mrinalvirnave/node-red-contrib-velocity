@@ -25,5 +25,7 @@ before_script:
   - export NODE_RED_HOME=`pwd`
   - export CI=true
   - (cd $NODE_RED_HOME ; npm install nock@~0.48.0)
+after_script:
+  - gulp coveralls
 script:
   - gulp
