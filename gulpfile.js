@@ -39,8 +39,14 @@ gulp.task('coveralls', ['test'], function() {
     return;
   }
   console.log('Sending data to Coveralls');
-  return gulp.src(path.join(__dirname, 'coverage/lcov.info'))
+  try {
+    return gulp.src([path.join('coverage','lcov.info')])
     .pipe(coveralls());
+  } catch (e) {
+    console.log(e);
+    return e;
+  }
+  
 });
 
 gulp.task('default', ['test', 'coveralls']);
