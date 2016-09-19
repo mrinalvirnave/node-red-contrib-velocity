@@ -23,6 +23,7 @@ gulp.task('test', ['pre-test'], function(cb) {
     .pipe(plumber())
     .pipe(mocha({ reporter: 'spec', timeout: 3000 }))
     .on('error', function(err) {
+      console.log(err);
       mochaErr = err;
     })
     .pipe(istanbul.writeReports())
