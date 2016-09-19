@@ -2,7 +2,6 @@ sudo: false
 language: node_js
 env:
   - CXX="g++-4.8"
-  - CI=true
 addons:
   apt:
     sources:
@@ -24,6 +23,7 @@ before_script:
   - cd node-red
   - npm install
   - export NODE_RED_HOME=`pwd`
+  - export CI=true
   - (cd $NODE_RED_HOME ; npm install nock@~0.48.0)
 script:
   - gulp
