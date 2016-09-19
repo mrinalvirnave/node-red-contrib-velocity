@@ -21,6 +21,7 @@
   },
   "license": "Apache-2.0",
   "devDependencies": {
+    "coveralls": "^2.11.13",
     "gulp": "^3.9.1",
     "gulp-coveralls": "^0.1.4",
     "gulp-exit": "0.0.2",
