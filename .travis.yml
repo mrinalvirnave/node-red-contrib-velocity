@@ -2,6 +2,7 @@ sudo: false
 language: node_js
 env:
   - CXX="g++-4.8"
+  - CI=true
 addons:
   apt:
     sources:
@@ -25,4 +26,4 @@ before_script:
   - export NODE_RED_HOME=`pwd`
   - (cd $NODE_RED_HOME ; npm install nock@~0.48.0)
 script:
-  - gulp && ( cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js || true ) && rm -rf coverage
+  - gulp
