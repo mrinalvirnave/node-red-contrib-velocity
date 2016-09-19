@@ -20,6 +20,6 @@ This node takes 3 configuration values
 1. Set Property: Is the msg[property] that the putput will go into
 1. Template: is the actual template
 
-If you would like to read more about the velocity template engine, please visit the [user guide]( [http://velocity.apache.org/engine/1.7/user-guide.html])
+If you would like to read more about the velocity template engine, please visit the [user guide][http://velocity.apache.org/engine/1.7/user-guide.html]
 
 
