@@ -12,15 +12,14 @@ var path = require('path');
 
 
 gulp.task('pre-test', function() {
-  return gulp.src(['velocity/*.js'])
+  return gulp.src([path.join('velocity', 'velocity.js')])
     .pipe(istanbul({ includeUntested: true }))
     .pipe(istanbul.hookRequire());
 });
 
 gulp.task('test', ['pre-test'], function(cb) {
   var mochaErr;
-
-  gulp.src(['test/**/*.js'], { read: false })
+  gulp.src([path.join('test', 'velocity', '*.js')], { read: false })
     .pipe(plumber())
     .pipe(mocha({ reporter: 'spec', timeout: 3000 }))
     .on('error', function(err) {
