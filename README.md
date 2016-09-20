@@ -17,9 +17,9 @@ npm install --save node-red-contrib-velocity
 This node takes 3 configuration values
 
 1. Name: Use to give the Node a meaningful name
-1. Set Property: Is the msg[property] that the putput will go into
+1. Set Property: Is the property that the output will be assigned to (options are msg._propertyname_, flow._propertyname_, or global._propertyname_
 1. Template: is the actual template
 
-If you would like to read more about the velocity template engine, please visit the [user guide]( [http://velocity.apache.org/engine/1.7/user-guide.html])
+If you would like to read more about the velocity template engine, please visit the [user guide](http://velocity.apache.org/engine/1.7/user-guide.html)
 
 
