@@ -15,8 +15,12 @@
  **/
 
 var path = require('path');
-
-//process.env.NODE_RED_HOME = process.env.NODE_RED_HOME || path.resolve(__dirname + "/../../node-red");
-//console.log("HOME",process.env.NODE_RED_HOME);
-var helper = require(path.join(process.env.NODE_RED_HOME, 'test', 'nodes', 'helper.js'));
-module.exports = helper;
+if (process.env.NODE_RED_HOME) {
+  console.log('HOME', process.env.NODE_RED_HOME);
+  var helper = require(path.join(process.env.NODE_RED_HOME, 'test', 'nodes', 'helper.js'));
+  module.exports = helper;
+} else {
+  console.error('ERROR: NODE_RED_HOME environment variable must be set');
+  console.log('Ensure that the node-red environment has a test folder (hint: use "git clone", not "npm install" to get node-red) ');
+  process.exit(1);
+}
